@@ -6,13 +6,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter } from "react-router-dom";
-import { fetchItems } from "./features/item/itemSlice";
+// import { fetchItems } from "./features/item/itemSlice";
 
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-store.dispatch(fetchItems());
+// store.dispatch(fetchItems());
 
 root.render(
   // <React.StrictMode>
