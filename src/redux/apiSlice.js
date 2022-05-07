@@ -8,14 +8,21 @@ export const cunyFirstAPI = createApi({
   endpoints: (builder) => ({
     getCourses: builder.query({
       query: () => `/courses`,
-      providesTags: (result, error, arg) =>
+      providesTags: (result) =>
+          // is result available?
           result
-              ? [...result.map(({ id }) => ({ type: 'Course', id })), 'Course']
-              : ['Course'],
+              ? // successful query
+              [
+                ...result.map(({ id }) => ({ type: 'Posts', id })),
+                { type: 'Course', id: 'LIST' },
+              ]
+              : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+              [{ type: 'Course', id: 'LIST' }],
       // providesTags: ["Course"],
     }),
     getCourseByID: builder.query({
       query: (id) => `/courses/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Course', id }],
     }),
 
     addNewCourse: builder.mutation({
@@ -24,7 +31,7 @@ export const cunyFirstAPI = createApi({
         method: "POST",
         body: initialCourse,
       }),
-      invalidatesTags: ["Course"],
+      invalidatesTags: [{ type: 'Course', id: 'LIST' }],
     }),
     editCourse: builder.mutation({
       query: (course) => ({
@@ -32,8 +39,16 @@ export const cunyFirstAPI = createApi({
         method: "PATCH",
         body: course,
       }),
-      invalidatesTags: ["Course"],
+      invalidatesTags: (result, error, { id }) => [{ type: 'Course', id }],
     }),
+
+    deleteCourse: builder.mutation({
+      query: (id)=>({
+        url: `/courses/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    invalidatesTags: (result, error, id) => [{ type: 'Course', id }],
     getInstructors: builder.query({
       query: () => `/instructors`,
       providesTags: ["Instructor"],
@@ -54,6 +69,7 @@ export const {
   useGetInstructorsQuery,
   useAddNewCourseMutation,
   useEditCourseMutation,
+    useDeleteCourseMutation,
 } = cunyFirstAPI;
 
 

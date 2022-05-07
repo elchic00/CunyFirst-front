@@ -1,14 +1,45 @@
-import { Route, Routes } from "react-router-dom";
+import {Link, Route, Routes, Switch} from "react-router-dom";
 import { HomePage } from "../components/HomePage"
 import { Courses } from "../components/Courses";
 import { Instructors } from "../components/Instructors";
+import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+
+
+const Navbar= () =>{
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{ mr: 2 }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Who needs Cuny First?
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+        </Box>
+    );
+}
+export default Navbar;
 
 export const AppRoutes = () => {
     return (
+        <>
+        <Navbar/>
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path='/courses' element={<Courses />} />
         <Route path='/instructors' element={<Instructors />} />
       </Routes>
+        </>
     );
 }

@@ -10,22 +10,25 @@ import {
     Skeleton,
     Fab,
     Dialog,
-    DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, FormControl
+    DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, FormControl, IconButton, Grid
 } from "@mui/material";
 import { useNavigate } from "react-router";
 // import { fetchItems, selectAllItems } from "../features/item/itemSlice";
-import { useGetCoursesQuery } from "../redux/apiSlice";
+import {useAddNewCourseMutation, useDeleteCourseMutation, useGetCoursesQuery} from "../redux/apiSlice";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 
 export const Courses = () => {
-    const [formData, setFormData] = useState({
+    const initialData = {
         title: "",
         timeslot: "",
         location: "",
-        instructorId: 1,
-    });
+        instructorId: 1
+    }
+
+    const [formData, setFormData] = useState(initialData);
     const [isDisabled, setIsDisabled] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -35,11 +38,7 @@ export const Courses = () => {
 
     const handleClose = () => {
         setOpen(false);
-        setFormData({
-            title: "",
-            timeslot: "",
-            location: "",
-            instructorId: 1})
+        setFormData(initialData)
     };
       let navigate = useNavigate();
       const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
@@ -48,14 +47,13 @@ export const Courses = () => {
         const { name, value } = e.target
        setFormData((prev) => ({ ...prev, [name]: value }));
     }
-
+    const [addCourse, { isLoading: loadingAddPost }] = useAddNewCourseMutation();
     async function handleSubmit(e) {
         e.preventDefault();
         setIsDisabled(true);
         try {
-            await axios.post('/api/courses', formData)
+            addCourse(formData).then(() => setFormData(initialData));
             handleClose()
-            refetch()
             setIsDisabled(false);
         } catch (e) {
             console.log(e)
@@ -64,8 +62,12 @@ export const Courses = () => {
             setIsDisabled(false);
         }
     }
+    const [deleteCourse, { isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
+    function handleDeleteConfirmation(id) {
+        deleteCourse(id).then(refetch());
+    }
 
-  return (
+    return (
     <>
       <Container>
         <Typography
@@ -78,9 +80,19 @@ export const Courses = () => {
           Courses
         </Typography>
       </Container>
-      {courses ? (
-        courses.map((course) => (
-          <Card sx={{ maxWidth: 300, ml: "10%", mb: 3 }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+        {courses ? (
+        courses.map((course,index) => (
+
+          <Card
+              sx={{
+              width: { xs: "auto", sm: "250px" },
+              borderRadius: 2,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column"
+          }}key={course.id}>
+
             <CardContent>
               <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
                 {course.title}
@@ -92,20 +104,21 @@ export const Courses = () => {
                 {course.location}, {course.timeslot}
               </Typography>
             </CardContent>
-            {/* <CardActions>
-              <Button onClick={() => navigate(`/items`)} sx={{ mx: "auto" }} size="small">
-                See your Items
-              </Button>
-            </CardActions> */}
+            <CardActions>
+                <IconButton disabled={loadingDeleteCourse} onClick={()=>handleDeleteConfirmation(course.id)}>
+                    <DeleteIcon />
+                </IconButton>
+            </CardActions>
           </Card>
         ))
       ) : (
         <Skeleton variant="rectangular" width={500} height={118} />
       )}
-
-      <Fab onClick={handleClickOpen} sx={{mt:'24%', ml:'82%',}} color="primary" aria-label="add">
+        </Box>
+      <Fab onClick={handleClickOpen}  sx={{ position: "fixed", bottom: 20, right: 30 }} color="primary" aria-label="add">
         <AddIcon/>
       </Fab>
+
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add New Course</DialogTitle>
             <DialogContent>
@@ -173,7 +186,7 @@ export const Courses = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit} disabled={isDisabled} type="submit">
+                <Button onClick={handleSubmit} disabled={loadingAddPost}  type="submit">
                     submit
                 </Button>
             </DialogActions>
