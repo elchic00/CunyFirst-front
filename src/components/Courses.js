@@ -18,6 +18,7 @@ import {useAddNewCourseMutation, useDeleteCourseMutation, useGetCoursesQuery} fr
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Swal from "sweetalert2";
 
 
 export const Courses = () => {
@@ -48,7 +49,7 @@ export const Courses = () => {
        setFormData((prev) => ({ ...prev, [name]: value }));
     }
     const [addCourse, { isLoading: loadingAddPost }] = useAddNewCourseMutation();
-    async function handleSubmit(e) {
+    async function handleSubmitCourse(e) {
         e.preventDefault();
         setIsDisabled(true);
         try {
@@ -63,15 +64,44 @@ export const Courses = () => {
         }
     }
     const [deleteCourse, { isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
+    //
     function handleDeleteConfirmation(id) {
-        deleteCourse(id).then(refetch());
+        Swal.fire({
+            title: 'Are you sure you?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCourse(id).then(refetch())
+                Swal.fire(
+                    'Deleted!',
+                    'This course has been deleted.',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    'Cancelled',
+                    'Your course is safe :)',
+                    'error'
+                )
+            }
+        })
     }
 
     return (
     <>
       <Container>
         <Typography
-          sx={{ textDecoration: "underline", mb: 5 }}
+          sx={{ /*textDecoration: "underline",*/ mb: 5 }}
           fontFamily={"Oxygen"}
           gutterBottom
           component="div"
@@ -186,7 +216,7 @@ export const Courses = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit} disabled={loadingAddPost}  type="submit">
+                <Button onClick={handleSubmitCourse} disabled={loadingAddPost}  type="submit">
                     submit
                 </Button>
             </DialogActions>

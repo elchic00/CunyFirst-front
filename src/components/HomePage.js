@@ -29,7 +29,7 @@ export const HomePage = () => {
   return (
       <><Container>
           <Typography
-            sx={{ textDecoration: "underline", mb: 8 }}
+            sx={{  mb: 8 }}
             fontFamily={"Oxygen"}
             gutterBottom
             component="div"
