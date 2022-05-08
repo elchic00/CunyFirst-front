@@ -40,7 +40,7 @@ export const HomePage = () => {
         </Container><Card sx={{ maxWidth: 315, ml: "10%" }}>
             <CardContent>
               <Typography variant="h5" gutterBottom>
-                You have {courses.length} Course saved
+                You have {courses.length} courses saved
               </Typography>
 
               <Typography variant="body1">
