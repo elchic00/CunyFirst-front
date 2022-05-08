@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export const Instructors = () => {
-  return <Box>listCards</Box>;
+  return (
+    <Typography
+      sx={{ /*textDecoration: "underline",*/ mb: 5 }}
+      fontFamily={"Oxygen"}
+      gutterBottom
+      component="div"
+      variant="h2"
+    >
+      Instructors
+    </Typography>
+  );
 };

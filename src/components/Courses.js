@@ -10,7 +10,6 @@ import {
     Skeleton,
     IconButton
 } from "@mui/material";
-import { useNavigate } from "react-router";
 import {useAddNewCourseMutation, useDeleteCourseMutation, useGetCoursesQuery} from "../redux/apiSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,10 +17,14 @@ import Swal from "sweetalert2";
 import {AddCourse} from "./addCourse";
 
 export const Courses = () => {
-      let navigate = useNavigate();
-      const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
+      const { data: courses,  isFetching, isLoading,error, refetch } = useGetCoursesQuery();
 
-    const [deleteCourse, { isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
+  const [deleteCourse, { isLoading: loadingDeleteCourse }] = useDeleteCourseMutation();
+
+  useEffect(() => { 
+    console.log(courses, isLoading)
+  }, [courses, isLoading])
+  
     function handleDeleteConfirmation(id) {
         Swal.fire({
             title: 'Are you sure you?',
@@ -58,57 +61,68 @@ export const Courses = () => {
 
     }
     return (
-    <>
-      <Container>
-        <Typography
-          sx={{ /*textDecoration: "underline",*/ mb: 5 }}
-          fontFamily={"Oxygen"}
-          gutterBottom
-          component="div"
-          variant="h2"
-        >
-          Courses
-        </Typography>
-      </Container>
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, ml:1 }}>
-        {courses ? (
-        courses.map((course,index) => (
+      <>
+        <Container>
+          <Typography
+            sx={{ /*textDecoration: "underline",*/ mb: 5 }}
+            fontFamily={"Oxygen"}
+            gutterBottom
+            component="div"
+            variant="h2"
+          >
+            Courses
+          </Typography>
+        </Container>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, ml: 1 }}>
+          {(courses.length !== 0 && isLoading === false) ? (
+            courses.map((course, index) => (
+              <Card
+                sx={{
+                  width: { xs: "auto", sm: "250px" },
+                  borderRadius: 2,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                key={course.id}
+              >
+                <CardContent>
+                  <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
+                    {course.title}
+                  </Typography>
 
-          <Card
-              sx={{
-              width: { xs: "auto", sm: "250px" },
-              borderRadius: 2,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column"
-          }}key={course.id}>
-
-            <CardContent>
-              <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
-                {course.title}
-              </Typography>
-
-              <Typography variant="body1" fontFamily={"Oxygen"}>
-                by {course.instructor.firstname} {course.instructor.lastname}
-                <br />
-                {course.location}, {course.timeslot}
-              </Typography>
-            </CardContent>
-            <CardActions>
-                <IconButton onClick={updateCourse}>
+                  <Typography variant="body1" fontFamily={"Oxygen"}>
+                    by {course.instructor.firstname} {course.instructor.lastname}
+                    <br />
+                    {course.location}, {course.timeslot}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <IconButton onClick={updateCourse}>
                     <EditIcon />
-                </IconButton>
-                <IconButton disabled={loadingDeleteCourse} onClick={()=>handleDeleteConfirmation(course.id)}>
+                  </IconButton>
+                  <IconButton
+                    disabled={loadingDeleteCourse}
+                    onClick={() => handleDeleteConfirmation(course.id)}
+                  >
                     <DeleteIcon />
-                </IconButton>
-            </CardActions>
-          </Card>
-        ))
-      ) : (
-        <Skeleton variant="rectangular" width={500} height={118} />
-      )}
+                  </IconButton>
+                </CardActions>
+              </Card>
+            ))
+          ) : (
+            <Typography
+              sx={{ml:'2%'}}
+              fontFamily={"Inconsolata"}
+              gutterBottom
+              component="div"
+              variant="h4"
+            >
+              No courses available. Add one now with the button on the bottom right.
+            </Typography>
+          )}
         </Box>
         <AddCourse />
-    </>
-  );
+      </>
+    );
 };

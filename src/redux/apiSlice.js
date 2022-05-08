@@ -9,20 +9,20 @@ export const cunyFirstAPI = createApi({
     getCourses: builder.query({
       query: () => `/courses`,
       providesTags: (result) =>
-          // is result available?
-          result
-              ? // successful query
-              [
-                ...result.map(({ id }) => ({ type: 'Posts', id })),
-                { type: 'Course', id: 'LIST' },
-              ]
-              : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
-              [{ type: 'Course', id: 'LIST' }],
+        // is result available?
+        result
+          ? // successful query
+            [
+              ...result.map(({ id }) => ({ type: "Course", id })),
+              { type: "Course", id: "LIST" },
+            ]
+          : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'LIST' }` is invalidated
+            [{ type: "Course", id: "LIST" }],
       // providesTags: ["Course"],
     }),
     getCourseByID: builder.query({
       query: (id) => `/courses/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Course', id }],
+      providesTags: (result, error, id) => [{ type: "Course", id }],
     }),
 
     addNewCourse: builder.mutation({
@@ -31,7 +31,7 @@ export const cunyFirstAPI = createApi({
         method: "POST",
         body: initialCourse,
       }),
-      invalidatesTags: [{ type: 'Course', id: 'LIST' }],
+      invalidatesTags: [{ type: "Course", id: "LIST" }],
     }),
     editCourse: builder.mutation({
       query: (course) => ({
@@ -39,16 +39,16 @@ export const cunyFirstAPI = createApi({
         method: "PATCH",
         body: course,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Course', id }],
+      invalidatesTags: (result, error, { id }) => [{ type: "Course", id }],
     }),
 
     deleteCourse: builder.mutation({
-      query: (id)=>({
+      query: (id) => ({
         url: `/courses/${id}`,
         method: "DELETE",
       }),
     }),
-    invalidatesTags: (result, error, id) => [{ type: 'Course', id }],
+    invalidatesTags: (result, error, id) => [{ type: "Course", id }],
     getInstructors: builder.query({
       query: () => `/instructors`,
       providesTags: ["Instructor"],
@@ -57,7 +57,6 @@ export const cunyFirstAPI = createApi({
       query: (id) => `/instructors/${id}`,
     }),
   }),
-
 });
 
 // Export hooks for usage in functional components, which are

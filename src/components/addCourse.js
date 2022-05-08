@@ -96,7 +96,7 @@ export const AddCourse = ({onAddCourse}) => {
                          width: { xs: "auto", sm: "300px" },
                          display: "flex",
                          flexDirection: "column",
-                         gap: 20,
+                         gap: 15,
                      }}>
                 <TextField
                     name="title"
