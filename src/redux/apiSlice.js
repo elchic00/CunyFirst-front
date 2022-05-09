@@ -18,7 +18,6 @@ export const cunyFirstAPI = createApi({
             ]
           : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'LIST' }` is invalidated
             [{ type: "Course", id: "LIST" }],
-      // providesTags: ["Course"],
     }),
     getCourseByID: builder.query({
       query: (id) => `/courses/${id}`,
@@ -34,9 +33,9 @@ export const cunyFirstAPI = createApi({
       invalidatesTags: [{ type: "Course", id: "LIST" }],
     }),
     editCourse: builder.mutation({
-      query: (course) => ({
-        url: `/courses/${course.id}`,
-        method: "PATCH",
+      query: (id, course) => ({
+        url: `/courses/${id}`,
+        method: "PUT",
         body: course,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Course", id }],

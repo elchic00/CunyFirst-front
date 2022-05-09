@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {useAddNewCourseMutation, useGetCoursesQuery, useGetInstructorsQuery} from "../redux/apiSlice";
 import {
     Box,
-    Button,
+    Button, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -15,21 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import * as yup from "yup";
 import {Formik, getIn, useFormik} from "formik";
 import Swal from "sweetalert2";
-
-const courseSchema = yup.object().shape({
-    title: yup.string().required("Title is required"),
-    timeslot: yup
-        .string()
-        .required("Timeslot is required")
-        .min(4, "timeslot must include starting and ending time"),
-    location: yup
-        .string(),
-        // .required("Location is required"),
-    instructorId: yup
-        .number()
-        .min(1, 'Instructor is required.')
-        .required("Instructor is required.")
-});
+import {courseSchema} from "../utils/CourseSchema.js"
 
 export const AddCourse = ({onAddCourse}) => {
     const initialFormData = {
@@ -57,6 +43,7 @@ export const AddCourse = ({onAddCourse}) => {
         },
     });
 
+
     const [open, setOpen] = useState(false);
     const handleClickOpenAddCourse = () => {
         setOpen(true);
@@ -68,17 +55,17 @@ export const AddCourse = ({onAddCourse}) => {
 
     const [addCourse, { isLoading: loadingAddPost }] = useAddNewCourseMutation();
 
+    // if (cou === undefined) return(console.log(courseByID, loadingCourse ),<CircularProgress size={150}/>)
+
+
     const { data: instructors,  isFetching, isLoading, refetch } = useGetInstructorsQuery();
 
-    const instructorSelect = instructors ? (
-        instructors.map((instructor)=>(
+    const instructorSelect = instructors !== undefined && instructors.map((instructor)=>(
             <MenuItem key={instructor.id} value={instructor.id}>
                 {instructor.firstname} {instructor.lastname}
             </MenuItem>
-        ))
-    ) : (
-        <Skeleton width="500px" height="200px" />
-    );
+    ))
+
     return(
         <>
         <Fab onClick={handleClickOpenAddCourse}  sx={{ position: "fixed", bottom: 20, right: 30 }} color="primary" aria-label="add">
@@ -100,7 +87,7 @@ export const AddCourse = ({onAddCourse}) => {
                      }}>
                 <TextField
                     name="title"
-                    label="Title"
+                    label="Name"
                     value={courseFormik.values.title}
                     helperText={courseFormik.touched.title && courseFormik.errors.title}
                     error={courseFormik.touched.title && Boolean(courseFormik.errors.title)}

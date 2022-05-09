@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import {
     Box,
     Container,
@@ -8,24 +8,44 @@ import {
     CardContent,
     Button,
     Skeleton,
-    IconButton
+    IconButton, Dialog, CircularProgress
 } from "@mui/material";
-import {useAddNewCourseMutation, useDeleteCourseMutation, useGetCoursesQuery} from "../redux/apiSlice";
+import {
+    useDeleteCourseMutation,
+    useGetCoursesQuery
+} from "../redux/apiSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import {AddCourse} from "./addCourse";
+import {UpdateCourse} from "./updateCourse";
+import axios from "axios";
+
 
 export const Courses = () => {
-      const { data: courses,  isFetching, isLoading,error, refetch } = useGetCoursesQuery();
+    const {data: courses, isFetching, isLoading, error, refetch} = useGetCoursesQuery();
+    const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
+    const [open, setOpen] = useState(false);
+    const [idToUpdate, setIDToUpdate] = useState(0);
 
-  const [deleteCourse, { isLoading: loadingDeleteCourse }] = useDeleteCourseMutation();
+    if (isLoading) return (<>
+        <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
+            Courses
+        </Typography>
+        <CircularProgress size={200}/> </>)
+    if (!courses) return <Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div"
+                                     variant="h4">
+        No courses available. Add one now with the button on the bottom right.</Typography>
 
-  useEffect(() => { 
-    console.log(courses, isLoading)
-  }, [courses, isLoading])
-  
-    function handleDeleteConfirmation(id) {
+
+    const handleClickOpenUpdate = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    async function handleDeleteConfirmation(id) {
         Swal.fire({
             title: 'Are you sure you?',
             text: "You won't be able to revert this!",
@@ -50,79 +70,86 @@ export const Courses = () => {
             ) {
                 Swal.fire(
                     'Cancelled',
-                    'Your course is safe :)',
+                    'Your course is safe.',
                     'error'
                 )
             }
         })
     }
 
-    function updateCourse() {
-
+    function updateCourse(id) {
+        setIDToUpdate(id)
+        handleClickOpenUpdate()
     }
-    return (
-      <>
-        <Container>
-          <Typography
-            sx={{ /*textDecoration: "underline",*/ mb: 5 }}
-            fontFamily={"Oxygen"}
-            gutterBottom
-            component="div"
-            variant="h2"
-          >
-            Courses
-          </Typography>
-        </Container>
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, ml: 1 }}>
-          {(courses.length !== 0 && isLoading === false) ? (
-            courses.map((course, index) => (
-              <Card
-                sx={{
-                  width: { xs: "auto", sm: "250px" },
-                  borderRadius: 2,
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                key={course.id}
-              >
-                <CardContent>
-                  <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
-                    {course.title}
-                  </Typography>
 
-                  <Typography variant="body1" fontFamily={"Oxygen"}>
-                    by {course.instructor.firstname} {course.instructor.lastname}
-                    <br />
-                    {course.location}, {course.timeslot}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <IconButton onClick={updateCourse}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    disabled={loadingDeleteCourse}
-                    onClick={() => handleDeleteConfirmation(course.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            ))
-          ) : (
-            <Typography
-              sx={{ml:'2%'}}
-              fontFamily={"Inconsolata"}
-              gutterBottom
-              component="div"
-              variant="h4"
-            >
-              No courses available. Add one now with the button on the bottom right.
-            </Typography>
-          )}
-        </Box>
-        <AddCourse />
-      </>
+    return (
+        <>
+            <Container>
+                <Typography
+                    sx={{ /*textDecoration: "underline",*/ mb: 5}}
+                    fontFamily={"Oxygen"}
+                    gutterBottom
+                    component="div"
+                    variant="h2"
+                >
+                    Courses
+                </Typography>
+            </Container>
+            <Box sx={{display: "flex", flexWrap: "wrap", gap: 2, ml: 1}}>
+                {(courses.length !== 0 && isLoading === false) ? (
+                    courses.map((course, index) => (
+                        <Card
+                            sx={{
+                                width: {xs: "auto", sm: "250px"},
+                                borderRadius: 2,
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                            key={course.id}
+                        >
+                            <CardContent>
+                                <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
+                                    {course.title}
+                                </Typography>
+
+                                <Typography variant="body1" fontFamily={"Oxygen"}>
+                                    by {course.instructor.firstname} {course.instructor.lastname}
+                                    <br/>
+                                    {course.location}, {course.timeslot}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <IconButton onClick={() => updateCourse(course.id)}>
+                                    <EditIcon/>
+                                </IconButton>
+                                <IconButton
+                                    disabled={loadingDeleteCourse}
+                                    onClick={() => handleDeleteConfirmation(course.id)}
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </CardActions>
+                        </Card>
+                    ))
+                ) : (<Typography
+                        sx={{ml: '2%'}}
+                        fontFamily={"Inconsolata"}
+                        gutterBottom
+                        component="div"
+                        variant="h4"
+                    >
+                        No courses available. Add one now with the button on the bottom right.
+                    </Typography>
+                )}
+            </Box>
+
+            <AddCourse/>
+
+            <Dialog open={open} onClose={handleClose}>
+                <UpdateCourse id={idToUpdate} refetchCourses={refetch} handleClose={handleClose}/>
+            </Dialog>
+
+        </>
     );
 };
