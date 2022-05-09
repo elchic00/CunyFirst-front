@@ -1,4 +1,4 @@
-import {useEditCourseMutation, useGetCourseByIDQuery, useGetInstructorsQuery} from "../redux/apiSlice";
+import {useUpdateCourseMutation, useGetCourseByIDQuery, useGetInstructorsQuery} from "../redux/apiSlice";
 import {
     Button,
     CircularProgress,
@@ -17,14 +17,14 @@ import axios from "axios";
 
 const UpdateForm = ({handleClose, id, refetchCourses}) => {
     const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
-
     const {
         data: instructors,
         isFetching: isFetchingInstructor,
         isLoading: loadingInstructors,
         refetch
     } = useGetInstructorsQuery();
-    const [updateCourse, {isLoading}] = useEditCourseMutation();
+
+    const [updateCourse, {isLoading}] = useUpdateCourseMutation();
 
     const instructorSelect = instructors.map((instructor) => (
         <MenuItem key={instructor.id} value={instructor.id}>
@@ -32,37 +32,28 @@ const UpdateForm = ({handleClose, id, refetchCourses}) => {
         </MenuItem>
     ))
 
-    const initialFormData = {
-        title: courseByID.title,
-        timeslot: courseByID.timeslot,
-        location: courseByID.location,
-        instructorId: courseByID.instructor.id
-    }
-
     const courseFormik = useFormik({
-        initialValues: initialFormData,
+        initialValues: courseByID,
         validationSchema: courseSchema,
         onSubmit: (values) => {
             try {
-                // I couldn't figure out why RTK query was not working here for the PUT, so I used axios instead
-                // and manually refetched with redux.
-                axios.put(`api/courses/${id}`, values)
+                updateCourse({id, ...values})
                     .then(
-                        (refetchCourses())).then(
-                    (res) => {
-                        if (res.statusText === 'Created')
-                            Swal.fire(
-                                'Great!',
-                                'You updated the course!',
-                                'success'
-                            )
-                        else
-                            Swal.fire(
-                                'Nope!',
-                                "You did not update the course!",
-                                'error'
-                            )
-                    }).then(handleClose())
+                        (res) => {
+                            if (res.error)
+                                Swal.fire(
+                                    'Nope!',
+                                    "You did not update the course!",
+                                    'error'
+                                )
+                            else
+                                Swal.fire(
+                                    'Great!',
+                                    'You updated the course!',
+                                    'success'
+                                )
+                        })
+                    .then(handleClose())
             } catch (e) {
                 console.log(e)
                 handleClose()
@@ -125,13 +116,7 @@ const UpdateForm = ({handleClose, id, refetchCourses}) => {
 
 
 export const UpdateCourse = ({id, handleClose, refetchCourses}) => {
-    const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
-    const {
-        data: instructors,
-        isFetching: isFetchingInstructor,
-        isLoading: loadingInstructors,
-        refetch
-    } = useGetInstructorsQuery();
+    const {isLoading: loadingCourse} = useGetCourseByIDQuery(id);
     if (loadingCourse) return (<CircularProgress size={150}/>)
     return (
         <>

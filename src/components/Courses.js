@@ -47,23 +47,24 @@ export const Courses = () => {
 
     async function handleDeleteConfirmation(id) {
         Swal.fire({
-            title: 'Are you sure you?',
+            title: 'Are you sure you want to delete?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete!',
-            cancelButtonText: 'No, cancel!',
+            confirmButtonText: 'Delete!',
+            cancelButtonText: 'Cancel!',
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteCourse(id).then(refetch())
-                Swal.fire(
-                    'Deleted!',
-                    'This course has been deleted.',
-                    'success'
-                )
+                    .then(
+                        Swal.fire(
+                            'Deleted!',
+                            'This course has been deleted.',
+                            'success'
+                        ))
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel

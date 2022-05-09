@@ -32,8 +32,8 @@ export const cunyFirstAPI = createApi({
       }),
       invalidatesTags: [{ type: "Course", id: "LIST" }],
     }),
-    editCourse: builder.mutation({
-      query: (id, course) => ({
+    updateCourse: builder.mutation({
+      query: ({id, ...course}) => ({
         url: `/courses/${id}`,
         method: "PUT",
         body: course,
@@ -66,7 +66,7 @@ export const {
   useGetInstructorByIDQuery,
   useGetInstructorsQuery,
   useAddNewCourseMutation,
-  useEditCourseMutation,
+  useUpdateCourseMutation,
     useDeleteCourseMutation,
 } = cunyFirstAPI;
 
