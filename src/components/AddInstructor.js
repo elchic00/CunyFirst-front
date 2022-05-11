@@ -29,6 +29,10 @@ export const AddInstructor = ({onAddCourse}) => {
         department: "",
         imageUrl: '',
     }
+
+    const [addInstructor, { isLoading: loadingAddPost }] = useAddNewInstructorMutation();
+    // const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
+
     const instructorFormik = useFormik({
         initialValues: initialFormData,
         validationSchema: instructorSchema,
@@ -59,18 +63,12 @@ export const AddInstructor = ({onAddCourse}) => {
         setOpen(false);
     };
 
-    const [addInstructor, { isLoading: loadingAddPost }] = useAddNewInstructorMutation();
 
-    // if (cou === undefined) return(console.log(courseByID, loadingCourse ),<CircularProgress size={150}/>)
-
-
-    const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
-
-    const instructorSelect = courses !== undefined && courses.map((instructor)=>(
-        <MenuItem key={instructor.id} value={instructor.id}>
-            {instructor.firstname} {instructor.lastname}
-        </MenuItem>
-    ))
+    // const instructorSelect = courses !== undefined && courses.map((instructor)=>(
+    //     <MenuItem key={instructor.id} value={instructor.id}>
+    //         {instructor.firstname} {instructor.lastname}
+    //     </MenuItem>
+    // ))
 
     return(
         <>
@@ -114,6 +112,14 @@ export const AddInstructor = ({onAddCourse}) => {
                             value={instructorFormik.values.department}
                             helperText={instructorFormik.touched.department && instructorFormik.errors.department}
                             error={instructorFormik.touched.department && Boolean(instructorFormik.errors.department)}
+                            onChange={instructorFormik.handleChange}
+                        />
+                        <TextField
+                            name="imageUrl"
+                            label="Image URL"
+                            value={instructorFormik.values.imageUrl}
+                            helperText={instructorFormik.touched.imageUrl && instructorFormik.errors.imageUrl}
+                            error={instructorFormik.touched.imageUrl && Boolean(instructorFormik.errors.imageUrl)}
                             onChange={instructorFormik.handleChange}
                         />
                         {/*<Button onClick={handleCloseAddCourse}>Cancel</Button>*/}
