@@ -15,8 +15,8 @@ import {courseSchema} from "../utils/CourseSchema.js"
 import axios from "axios";
 
 
-const UpdateForm = ({handleClose, id, refetchCourses}) => {
-    const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+const UpdateCourseForm = ({handleClose, id, refetchCourses, courseByID}) => {
+    // const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
     const {
         data: instructors,
         isFetching: isFetchingInstructor,
@@ -62,7 +62,7 @@ const UpdateForm = ({handleClose, id, refetchCourses}) => {
     });
 
     return (
-        <form component='form' onSubmit={courseFormik.handleSubmit}
+        <form onSubmit={courseFormik.handleSubmit}
               style={{
                   padding: 10,
                   width: {xs: "auto", sm: "300px"},
@@ -116,7 +116,9 @@ const UpdateForm = ({handleClose, id, refetchCourses}) => {
 
 
 export const UpdateCourse = ({id, handleClose, refetchCourses}) => {
-    const {isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+    // const {isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+    const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+
     if (loadingCourse) return (<CircularProgress size={150}/>)
     return (
         <>
@@ -125,7 +127,7 @@ export const UpdateCourse = ({id, handleClose, refetchCourses}) => {
                 <DialogContentText>
                     Change the information to this course.
                 </DialogContentText>
-                <UpdateForm handleClose={handleClose} id={id} refetchCourses={refetchCourses}/>
+                <UpdateCourseForm handleClose={handleClose} id={id} courseByID={courseByID} refetchCourses={refetchCourses}/>
             </DialogContent>
         </>
     )

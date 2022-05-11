@@ -11,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import {
-  useDeleteInstructorMutation,
+  useDeleteInstructorMutation, useGetCoursesQuery,
   useGetInstructorsQuery
 } from "../redux/apiSlice";
 import Swal from "sweetalert2";
@@ -23,6 +23,8 @@ import {UpdateInstructor} from "./UpdateInstructor";
 export const Instructors = () => {
   const {data: instructors, isFetching, isLoading, error, refetch} = useGetInstructorsQuery();
   const [deleteInstructor, {isLoading: loadingDeleteInstructor}] = useDeleteInstructorMutation();
+  const {refetch: refetchCourses} = useGetCoursesQuery();
+
   const [open, setOpen] = useState(false);
   const [idToUpdate, setIDToUpdate] = useState(0);
 
@@ -61,7 +63,7 @@ export const Instructors = () => {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteInstructor(id).then(refetch())
+        deleteInstructor(id).then(refetch()).then(refetchCourses())
             .then(
                 Swal.fire(
                     'Deleted!',
@@ -127,11 +129,11 @@ export const Instructors = () => {
                         {/*{instructor.location}, {instructor.timeslot}*/}
                         {instructor.department && `${instructor.department} Department`}
                         <br/>
-                        {instructor.courses &&
+                        {instructor.courses.length > 0 ?
                             `Courses: ${instructor.courses.map((course)=> {
                           return(
                           ` ${course.title}`
-                          )})} `}
+                          )})} `: <>No courses available. <br/> Register a course with this instructor on the courses page.</>}
                       </Typography>
                     </CardContent>
                     <CardActions>
