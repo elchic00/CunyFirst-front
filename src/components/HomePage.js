@@ -24,8 +24,15 @@ export const HomePage = () => {
 
     const { data: courses, error, isLoading } = useGetCoursesQuery();
     const { data: instructors, isLoading: loadingInstructors } = useGetInstructorsQuery();
-    if (isLoading || loadingInstructors) return <CircularProgress size={200}/>
-    if (!courses && !instructors) return <div>Missing items!</div>
+    if (isLoading || loadingInstructors) return (<>
+        <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
+            Data loading...
+        </Typography>
+        <CircularProgress size={200}/> </>)
+
+    if (!courses && !instructors) return <Typography sx={{  mb: 8 }} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
+                                    Missing courses and instructors from the database!
+                                        </Typography>
   
   return (
       <><Container>

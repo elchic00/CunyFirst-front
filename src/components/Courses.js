@@ -6,20 +6,17 @@ import {
     Card,
     CardActions,
     CardContent,
-    Button,
-    Skeleton,
     IconButton, Dialog, CircularProgress
 } from "@mui/material";
 import {
     useDeleteCourseMutation,
-    useGetCoursesQuery
+    useGetCoursesQuery, useGetInstructorsQuery
 } from "../redux/apiSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import {AddCourse} from "./addCourse";
-import {UpdateCourse} from "./updateCourse";
-import axios from "axios";
+import {AddCourse} from "./AddCourse";
+import {UpdateCourse} from "./UpdateCourse";
 
 
 export const Courses = () => {
@@ -27,21 +24,27 @@ export const Courses = () => {
     const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
     const [open, setOpen] = useState(false);
     const [idToUpdate, setIDToUpdate] = useState(0);
+    const {refetch: refetchInstructors} = useGetInstructorsQuery();
 
     if (isLoading) return (<>
         <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
-            Courses
+            Courses loading...
         </Typography>
         <CircularProgress size={200}/> </>)
-    if (!courses) return <Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div"
-                                     variant="h4">
-        No courses available. Add one now with the button on the bottom right.</Typography>
+
+    if (!courses) return (<>
+        <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
+            Courses
+        </Typography>
+        <Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div"
+                    variant="h4">
+            No courses available. Add one now with the button on the bottom right.</Typography></>)
 
 
     const handleClickOpenUpdate = () => {
         setOpen(true);
     };
-    const handleClose = () => {
+    const handleCloseUpdate = () => {
         setOpen(false);
     };
 
@@ -58,7 +61,7 @@ export const Courses = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteCourse(id).then(refetch())
+                deleteCourse(id).then(refetch()).then(refetchInstructors)
                     .then(
                         Swal.fire(
                             'Deleted!',
@@ -110,14 +113,14 @@ export const Courses = () => {
                             key={course.id}
                         >
                             <CardContent>
-                                <Typography variant="h5" gutterBottom fontFamily={"Oxygen"}>
+                                <Typography  sx={{textDecoration:'underline'}} variant="h5" gutterBottom fontFamily={"Oxygen"}>
                                     {course.title}
                                 </Typography>
 
                                 <Typography variant="body1" fontFamily={"Oxygen"}>
-                                    by {course.instructor.firstname} {course.instructor.lastname}
-                                    <br/>
                                     {course.location}, {course.timeslot}
+                                    <br/>
+                                    {course.instructor && `with ${course.instructor.firstname} ${course.instructor.lastname}`}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -133,22 +136,14 @@ export const Courses = () => {
                             </CardActions>
                         </Card>
                     ))
-                ) : (<Typography
-                        sx={{ml: '2%'}}
-                        fontFamily={"Inconsolata"}
-                        gutterBottom
-                        component="div"
-                        variant="h4"
-                    >
+                ) : (<Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div" variant="h4">
                         No courses available. Add one now with the button on the bottom right.
-                    </Typography>
-                )}
+                    </Typography>)
+                }
             </Box>
-
-            <AddCourse/>
-
-            <Dialog open={open} onClose={handleClose}>
-                <UpdateCourse id={idToUpdate} refetchCourses={refetch} handleClose={handleClose}/>
+            <AddCourse refetchInstructors={refetchInstructors}/>
+            <Dialog open={open} onClose={handleCloseUpdate}>
+                <UpdateCourse id={idToUpdate} refetchCourses={refetch} handleClose={handleCloseUpdate}/>
             </Dialog>
 
         </>
