@@ -14,10 +14,10 @@ export const cunyFirstAPI = createApi({
           ? // successful query
             [
               ...result.map(({ id }) => ({ type: "Course", id })),
-              { type: "Course", id: "LIST" },
+              { type: "Course", id: "courseLIST" },
             ]
           : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'LIST' }` is invalidated
-            [{ type: "Course", id: "LIST" }],
+            [{ type: "Course", id: "courseLIST" }],
     }),
     getCourseByID: builder.query({
       query: (id) => `/courses/${id}`,
@@ -30,7 +30,7 @@ export const cunyFirstAPI = createApi({
         method: "POST",
         body: initialCourse,
       }),
-      invalidatesTags: [{ type: "Course", id: "LIST" }],
+      invalidatesTags: [{ type: "Course", id: "courseLIST" }],
     }),
     updateCourse: builder.mutation({
       query: ({id, ...course}) => ({
@@ -40,21 +40,56 @@ export const cunyFirstAPI = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Course", id }],
     }),
-
     deleteCourse: builder.mutation({
       query: (id) => ({
         url: `/courses/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result, error, id) => [{ type: "Course", id }],
     }),
-    invalidatesTags: (result, error, id) => [{ type: "Course", id }],
+
     getInstructors: builder.query({
       query: () => `/instructors`,
-      providesTags: ["Instructor"],
+      providesTags: (result) =>
+          // is result available?
+          result
+              ? // successful query
+              [
+                ...result.map(({ id }) => ({ type: "Instructor", id })),
+                { type: "Instructor", id: "instructorLIST" },
+              ]
+              : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'LIST' }` is invalidated
+              [{ type: "Instructor", id: "instructorLIST" }],
     }),
     getInstructorByID: builder.query({
       query: (id) => `/instructors/${id}`,
+      providesTags: (result, error, id) => [{ type: "Instructor", id }],
     }),
+    addNewInstructor: builder.mutation({
+      query: (initialInstructor) => ({
+        url: "/instructors",
+        method: "POST",
+        body: initialInstructor,
+      }),
+      invalidatesTags: [{ type: "Instructor", id: "instructorLIST" }],
+    }),
+    updateInstructor: builder.mutation({
+      query: ({id, ...instructor}) => ({
+        url: `/instructors/${id}`,
+        method: "PUT",
+        body: instructor, invalidatesTags: (result, error, id) => [{ type: "Instructor", id }],
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Instructor", id }],
+    }),
+
+    deleteInstructor: builder.mutation({
+      query: (id) => ({
+        url: `/instructors/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Instructor", id }],
+    }),
+
   }),
 });
 
@@ -63,11 +98,14 @@ export const cunyFirstAPI = createApi({
 export const {
   useGetCourseByIDQuery,
   useGetCoursesQuery,
-  useGetInstructorByIDQuery,
-  useGetInstructorsQuery,
   useAddNewCourseMutation,
   useUpdateCourseMutation,
-    useDeleteCourseMutation,
+  useDeleteCourseMutation,
+  useGetInstructorByIDQuery,
+  useGetInstructorsQuery,
+  useDeleteInstructorMutation,
+  useAddNewInstructorMutation,
+  useUpdateInstructorMutation,
 } = cunyFirstAPI;
 
 
