@@ -77,7 +77,7 @@ export const cunyFirstAPI = createApi({
       query: ({id, ...instructor}) => ({
         url: `/instructors/${id}`,
         method: "PUT",
-        body: instructor, invalidatesTags: (result, error, id) => [{ type: "Instructor", id }],
+        body: instructor
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Instructor", id }],
     }),
