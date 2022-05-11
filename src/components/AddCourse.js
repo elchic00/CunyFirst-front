@@ -17,13 +17,18 @@ import {Formik, getIn, useFormik} from "formik";
 import Swal from "sweetalert2";
 import {courseSchema} from "../utils/CourseSchema.js"
 
-export const AddCourse = ({onAddCourse}) => {
+export const AddCourse = ({refetchInstructors}) => {
     const initialFormData = {
         title: "",
         timeslot: "",
         location: "",
         instructorId: 0
     }
+
+
+    const [addCourse, { isLoading: loadingAddPost }] = useAddNewCourseMutation();
+    const { data: instructors,  isFetching, isLoading, refetch } = useGetInstructorsQuery();
+
     const courseFormik = useFormik({
         initialValues: initialFormData,
         validationSchema: courseSchema,
@@ -34,7 +39,7 @@ export const AddCourse = ({onAddCourse}) => {
                         'Great!',
                         'You added the course!',
                         'success'
-                        )).then(resetForm() );
+                        )).then(resetForm() ).then(refetchInstructors);
                 handleCloseAddCourse()
             } catch (e) {
                 console.log(e)
@@ -53,12 +58,6 @@ export const AddCourse = ({onAddCourse}) => {
         setOpen(false);
     };
 
-    const [addCourse, { isLoading: loadingAddPost }] = useAddNewCourseMutation();
-
-    // if (cou === undefined) return(console.log(courseByID, loadingCourse ),<CircularProgress size={150}/>)
-
-
-    const { data: instructors,  isFetching, isLoading, refetch } = useGetInstructorsQuery();
 
     const instructorSelect = instructors !== undefined && instructors.map((instructor)=>(
             <MenuItem key={instructor.id} value={instructor.id}>
