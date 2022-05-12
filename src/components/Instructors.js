@@ -40,7 +40,8 @@ export const Instructors = () => {
     </Typography>
     <Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div"
                 variant="h4">
-      No instructors available. Add one now with the button on the bottom right.</Typography></>)
+      No instructors available. Add one now with the button on the bottom right.</Typography>
+    <AddInstructor/></>)
 
 
   const handleClickOpenUpdate = () => {

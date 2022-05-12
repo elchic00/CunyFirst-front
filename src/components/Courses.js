@@ -38,7 +38,9 @@ export const Courses = () => {
         </Typography>
         <Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div"
                     variant="h4">
-            No courses available. Add one now with the button on the bottom right.</Typography></>)
+            No courses available. Add one now with the button on the bottom right.</Typography>
+        <AddCourse refetchInstructors={refetchInstructors}/>
+    </>)
 
 
     const handleClickOpenUpdate = () => {
