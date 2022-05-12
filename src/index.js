@@ -5,7 +5,7 @@ import {store} from './redux/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 // import { fetchItems } from "./features/item/itemSlice";
 
 
@@ -17,9 +17,9 @@ const root = createRoot(container);
 root.render(
     // <React.StrictMode>
     <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <App/>
-        </BrowserRouter>
+        </HashRouter>
     </Provider>
     // </React.StrictMode>
 );
