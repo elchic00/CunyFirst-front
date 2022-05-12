@@ -1,6 +1,6 @@
 import {
     useGetInstructorByIDQuery, useGetCoursesQuery, useUpdateInstructorMutation
-} from "../redux/apiSlice";
+} from "../redux/services/apiSlice";
 import {
     Button,
     CircularProgress,

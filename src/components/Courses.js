@@ -11,7 +11,7 @@ import {
 import {
     useDeleteCourseMutation,
     useGetCoursesQuery, useGetInstructorsQuery
-} from "../redux/apiSlice";
+} from "../redux/services/apiSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
@@ -22,9 +22,9 @@ import {UpdateCourse} from "./UpdateCourse";
 export const Courses = () => {
     const {data: courses, isFetching, isLoading, error, refetch} = useGetCoursesQuery();
     const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
+    const {refetch: refetchInstructors} = useGetInstructorsQuery();
     const [open, setOpen] = useState(false);
     const [idToUpdate, setIDToUpdate] = useState(0);
-    const {refetch: refetchInstructors} = useGetInstructorsQuery();
 
     if (isLoading) return (<>
         <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
@@ -104,7 +104,7 @@ export const Courses = () => {
                     courses.map((course, index) => (
                         <Card
                             sx={{
-                                width: {xs: "auto", sm: "250px"},
+                                width: {xs: "auto", sm: "300px"},
                                 borderRadius: 2,
                                 height: "100%",
                                 display: "flex",
@@ -118,9 +118,13 @@ export const Courses = () => {
                                 </Typography>
 
                                 <Typography variant="body1" fontFamily={"Oxygen"}>
-                                    {course.location}, {course.timeslot}
+                                    Location: {course.location}
                                     <br/>
-                                    {course.instructor && `with ${course.instructor.firstname} ${course.instructor.lastname}`}
+                                    Time: {course.timeslot}
+                                    <br/>
+                                    {course.instructor ? `with ${course.instructor.firstname} ${course.instructor.lastname}` :
+                                    <>No instructor assigned to this course. <br/>
+                                    Edit this course to assign one.</>}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -143,7 +147,7 @@ export const Courses = () => {
             </Box>
             <AddCourse refetchInstructors={refetchInstructors}/>
             <Dialog open={open} onClose={handleCloseUpdate}>
-                <UpdateCourse id={idToUpdate} refetchCourses={refetch} handleClose={handleCloseUpdate}/>
+                <UpdateCourse id={idToUpdate} refetchInstructors={refetchInstructors} handleClose={handleCloseUpdate}/>
             </Dialog>
 
         </>

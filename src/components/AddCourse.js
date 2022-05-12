@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {useAddNewCourseMutation, useGetCoursesQuery, useGetInstructorsQuery} from "../redux/apiSlice";
+import {useAddNewCourseMutation, useGetCoursesQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
 import {
     Box,
     Button, CircularProgress,

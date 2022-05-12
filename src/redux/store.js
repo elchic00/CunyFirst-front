@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from "@reduxjs/toolkit/query";
-// import itemReducer from '../features/item/itemSlice';
-import { cunyFirstAPI } from './apiSlice'
+import { cunyFirstAPI } from './services/apiSlice'
 
 export const store = configureStore({
   reducer: {

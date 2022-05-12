@@ -1,4 +1,4 @@
-import {useUpdateCourseMutation, useGetCourseByIDQuery, useGetInstructorsQuery} from "../redux/apiSlice";
+import {useUpdateCourseMutation, useGetCourseByIDQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
 import {
     Button,
     CircularProgress,
@@ -15,8 +15,7 @@ import {courseSchema} from "../utils/CourseSchema.js"
 import axios from "axios";
 
 
-const UpdateCourseForm = ({handleClose, id, refetchCourses, courseByID}) => {
-    // const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => {
     const {
         data: instructors,
         isFetching: isFetchingInstructor,
@@ -46,12 +45,13 @@ const UpdateCourseForm = ({handleClose, id, refetchCourses, courseByID}) => {
                                     "You did not update the course!",
                                     'error'
                                 )
-                            else
+                            else {
                                 Swal.fire(
                                     'Great!',
                                     'You updated the course!',
                                     'success'
-                                )
+                                ).then(refetchInstructors())
+                            }
                         })
                     .then(handleClose())
             } catch (e) {
@@ -115,7 +115,7 @@ const UpdateCourseForm = ({handleClose, id, refetchCourses, courseByID}) => {
 }
 
 
-export const UpdateCourse = ({id, handleClose, refetchCourses}) => {
+export const UpdateCourse = ({id, handleClose, refetchInstructors}) => {
     // const {isLoading: loadingCourse} = useGetCourseByIDQuery(id);
     const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
 
@@ -127,7 +127,7 @@ export const UpdateCourse = ({id, handleClose, refetchCourses}) => {
                 <DialogContentText>
                     Change the information to this course.
                 </DialogContentText>
-                <UpdateCourseForm handleClose={handleClose} id={id} courseByID={courseByID} refetchCourses={refetchCourses}/>
+                <UpdateCourseForm handleClose={handleClose} id={id} courseByID={courseByID} refetchInstructors={refetchInstructors}/>
             </DialogContent>
         </>
     )

@@ -16,7 +16,7 @@ export const cunyFirstAPI = createApi({
               ...result.map(({ id }) => ({ type: "Course", id })),
               { type: "Course", id: "courseLIST" },
             ]
-          : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'LIST' }` is invalidated
+          : // an error occurred, but we still want to refetch this query when `{ type: 'Course', id: 'courseLIST' }` is invalidated
             [{ type: "Course", id: "courseLIST" }],
     }),
     getCourseByID: builder.query({
@@ -93,8 +93,7 @@ export const cunyFirstAPI = createApi({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
+// Export hooks for usage in functional components, which are auto-generated based on the defined endpoints
 export const {
   useGetCourseByIDQuery,
   useGetCoursesQuery,

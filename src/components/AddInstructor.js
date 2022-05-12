@@ -4,7 +4,7 @@ import {
     useAddNewInstructorMutation,
     useGetCoursesQuery,
     useGetInstructorsQuery
-} from "../redux/apiSlice";
+} from "../redux/services/apiSlice";
 import {
     Box,
     Button, CircularProgress,

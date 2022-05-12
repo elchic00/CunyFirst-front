@@ -9,17 +9,11 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import axios from "axios";
 import { useNavigate } from "react-router";
-// import { fetchItems, selectAllItems } from "../features/item/itemSlice";
-import { useSelector, useDispatch } from "react-redux";
-import {useGetCoursesQuery, useGetInstructorsQuery} from "../redux/apiSlice";
+import {useGetCoursesQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
 
 export const HomePage = () => {
-    // const [items, setItems] = useState({
-    //     items: [],
-    //     numItems: 0
-    // })
+
     let navigate = useNavigate();
 
     const { data: courses, error, isLoading } = useGetCoursesQuery();
@@ -63,6 +57,7 @@ export const HomePage = () => {
               </Button>
             </CardActions>
           </Card>
+
           <Card sx={{ maxWidth: 340, ml:'15%'}}>
               <CardContent>
                   <Typography variant="h5" gutterBottom>

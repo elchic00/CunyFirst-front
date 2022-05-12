@@ -13,7 +13,7 @@ import {
 import {
   useDeleteInstructorMutation, useGetCoursesQuery,
   useGetInstructorsQuery
-} from "../redux/apiSlice";
+} from "../redux/services/apiSlice";
 import Swal from "sweetalert2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
