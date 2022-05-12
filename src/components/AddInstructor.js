@@ -56,7 +56,7 @@ export const AddInstructor = ({onAddCourse}) => {
                 <DialogTitle>Add New Instructor</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Please enter information for a new instructor.
+                        Enter information for a new instructor.
                     </DialogContentText>
                     <form component='form' onSubmit={instructorFormik.handleSubmit}
                           style={{

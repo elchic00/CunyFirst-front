@@ -74,7 +74,7 @@ export const AddCourse = ({refetchInstructors}) => {
                 <DialogTitle>Add New Course</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Please enter information for a new course
+                        Enter information for a new course.
                     </DialogContentText>
                     <form component='form' onSubmit={courseFormik.handleSubmit}
                           style={{
