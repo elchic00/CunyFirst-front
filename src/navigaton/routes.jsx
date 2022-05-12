@@ -10,7 +10,8 @@ export const AppRoutes = () => {
         <Navbar/>
       <Routes>
         <Route path="/" element={<HomePage/>} />
-        <Route path='/courses' element={<Courses />} />
+          <Route path="/CunyFirst-front" element={<HomePage/>} />
+          <Route path='/courses' element={<Courses />} />
         <Route path='/instructors' element={<Instructors />} />
       </Routes>
         </>
