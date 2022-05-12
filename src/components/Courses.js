@@ -19,7 +19,7 @@ import {UpdateCourse} from "./UpdateCourse";
 
 
 export const Courses = () => {
-    const {data: courses, isFetching, isLoading, error, refetch} = useGetCoursesQuery();
+    const {data: courses, isFetching, isLoading, error, refetch: refetchCourses} = useGetCoursesQuery();
     const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
     const {refetch: refetchInstructors} = useGetInstructorsQuery();
     const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ export const Courses = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteCourse(id).then(refetch()).then(refetchInstructors)
+                deleteCourse(id).then(refetchCourses()).then(refetchInstructors)
                     .then(
                         Swal.fire(
                             'Deleted!',
