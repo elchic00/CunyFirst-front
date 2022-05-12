@@ -105,7 +105,7 @@ export const Instructors = () => {
                     instructors.map((instructor, index) => (
                         <Card
                             sx={{
-                                width: {xs: "auto", sm: "250px"},
+                                width: {xs: "auto", sm: "300px"},
                                 borderRadius: 2,
                                 height: "100%",
                                 display: "flex",
@@ -115,7 +115,7 @@ export const Instructors = () => {
                         >
                             <CardMedia
                                 component="img"
-                                height="125"
+                                height="210"
                                 image={instructor.imageUrl}
                                 alt="instructor-image"
                             />
