@@ -66,7 +66,7 @@ export const Instructors = () => {
                     .then(
                         Swal.fire(
                             'Deleted!',
-                            'This course has been deleted.',
+                            'This instructor has been deleted.',
                             'success'
                         ))
             } else if (
@@ -75,7 +75,7 @@ export const Instructors = () => {
             ) {
                 Swal.fire(
                     'Cancelled',
-                    'Your course is safe.',
+                    'Your instructor is safe.',
                     'error'
                 )
             }

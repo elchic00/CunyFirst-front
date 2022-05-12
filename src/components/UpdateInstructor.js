@@ -19,13 +19,13 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
                             if (res.error)
                                 Swal.fire(
                                     'Nope!',
-                                    "You did not update the course!",
+                                    "You did not update the instructor!",
                                     'error'
                                 )
                             else
                                 Swal.fire(
                                     'Great!',
-                                    'You updated the course!',
+                                    'You updated the instructor!',
                                     'success'
                                 )
                         })
