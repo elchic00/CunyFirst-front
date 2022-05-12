@@ -107,7 +107,7 @@ export const Instructors = () => {
                             sx={{
                                 width: {xs: "auto", sm: "300px"},
                                 borderRadius: 2,
-                                height: "100%",
+                                height: "425px",
                                 display: "flex",
                                 flexDirection: "column",
                             }}
