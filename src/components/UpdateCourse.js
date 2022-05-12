@@ -1,18 +1,16 @@
-import {useUpdateCourseMutation, useGetCourseByIDQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
+import {useGetCourseByIDQuery, useGetInstructorsQuery, useUpdateCourseMutation} from "../redux/services/apiSlice";
 import {
     Button,
     CircularProgress,
-    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    MenuItem, Skeleton,
+    MenuItem,
     TextField
 } from "@mui/material";
 import {useFormik} from "formik";
 import Swal from "sweetalert2";
 import {courseSchema} from "../utils/CourseSchema.js"
-import axios from "axios";
 
 
 const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => {
@@ -127,7 +125,8 @@ export const UpdateCourse = ({id, handleClose, refetchInstructors}) => {
                 <DialogContentText>
                     Change the information to this course.
                 </DialogContentText>
-                <UpdateCourseForm handleClose={handleClose} id={id} courseByID={courseByID} refetchInstructors={refetchInstructors}/>
+                <UpdateCourseForm handleClose={handleClose} id={id} courseByID={courseByID}
+                                  refetchInstructors={refetchInstructors}/>
             </DialogContent>
         </>
     )

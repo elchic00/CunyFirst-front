@@ -11,6 +11,5 @@ export const courseSchema = yup.object().shape({
     // .required("Location is required"),
     instructorId: yup
         .number()
-        .min(1, 'Instructor is required.')
-        .required("Instructor is required.")
+    // .min(1, 'Instructor is required.')
 });

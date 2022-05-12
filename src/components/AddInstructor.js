@@ -1,24 +1,8 @@
-import { useState, useEffect } from "react";
-import {
-    useAddNewCourseMutation,
-    useAddNewInstructorMutation,
-    useGetCoursesQuery,
-    useGetInstructorsQuery
-} from "../redux/services/apiSlice";
-import {
-    Box,
-    Button, CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Fab, MenuItem, Select, Skeleton,
-    TextField
-} from "@mui/material";
+import {useState} from "react";
+import {useAddNewInstructorMutation} from "../redux/services/apiSlice";
+import {Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle, Fab, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import * as yup from "yup";
-import {Formik, getIn, useFormik} from "formik";
+import {useFormik} from "formik";
 import Swal from "sweetalert2";
 import {instructorSchema} from "../utils/InstructorSchema.js"
 
@@ -30,7 +14,7 @@ export const AddInstructor = ({onAddCourse}) => {
         imageUrl: '',
     }
 
-    const [addInstructor, { isLoading: loadingAddPost }] = useAddNewInstructorMutation();
+    const [addInstructor, {isLoading: loadingAddPost}] = useAddNewInstructorMutation();
     // const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
 
     const instructorFormik = useFormik({
@@ -43,7 +27,7 @@ export const AddInstructor = ({onAddCourse}) => {
                         'Great!',
                         'You added the course!',
                         'success'
-                    )).then(resetForm() );
+                    )).then(resetForm());
                 handleCloseAddCourse()
             } catch (e) {
                 console.log(e)
@@ -70,9 +54,10 @@ export const AddInstructor = ({onAddCourse}) => {
     //     </MenuItem>
     // ))
 
-    return(
+    return (
         <>
-            <Fab onClick={handleClickOpenAddCourse}  sx={{ position: "fixed", bottom: 20, right: 30 }} color="primary" aria-label="add">
+            <Fab onClick={handleClickOpenAddCourse} sx={{position: "fixed", bottom: 20, right: 30}} color="primary"
+                 aria-label="add">
                 <AddIcon/>
             </Fab>
             <Dialog open={open} onClose={handleCloseAddCourse}>
@@ -84,7 +69,7 @@ export const AddInstructor = ({onAddCourse}) => {
                     <form component='form' onSubmit={instructorFormik.handleSubmit}
                           style={{
                               padding: 10,
-                              width: { xs: "auto", sm: "300px" },
+                              width: {xs: "auto", sm: "300px"},
                               display: "flex",
                               flexDirection: "column",
                               gap: 15,
@@ -122,10 +107,12 @@ export const AddInstructor = ({onAddCourse}) => {
                             error={instructorFormik.touched.imageUrl && Boolean(instructorFormik.errors.imageUrl)}
                             onChange={instructorFormik.handleChange}
                         />
-                        {/*<Button onClick={handleCloseAddCourse}>Cancel</Button>*/}
-                        <Button disabled={loadingAddPost}  type="submit">
-                            submit
-                        </Button>
+                        <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                            <Button disabled={loadingAddPost} type="submit">
+                                submit
+                            </Button>
+                            <Button onClick={handleCloseAddCourse}>Cancel</Button>
+                        </Box>
                     </form>
                 </DialogContent>
             </Dialog>

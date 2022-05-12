@@ -1,38 +1,12 @@
-import {
-    useGetInstructorByIDQuery, useGetCoursesQuery, useUpdateInstructorMutation
-} from "../redux/services/apiSlice";
-import {
-    Button,
-    CircularProgress,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    MenuItem, Skeleton,
-    TextField
-} from "@mui/material";
+import {useGetInstructorByIDQuery, useUpdateInstructorMutation} from "../redux/services/apiSlice";
+import {Button, CircularProgress, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import Swal from "sweetalert2";
 import {instructorSchema} from "../utils/InstructorSchema.js"
-import axios from "axios";
 
 
 const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
-    // const {data: instructorByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetInstructorByIDQuery(id);
-    // const {
-    //     data: courses,
-    //     isFetching: isFetchingInstructor,
-    //     isLoading: loadingInstructors,
-    //     refetch
-    // } = useGetCoursesQuery();
-
     const [updateInstructor, {isLoading}] = useUpdateInstructorMutation();
-
-    // const courseSelect = courses.map((course) => (
-    //     <MenuItem key={course.id} value={course.id}>
-    //         {course.title}
-    //     </MenuItem>
-    // ))
 
     const instructorFormik = useFormik({
         initialValues: instructorByID,
@@ -104,18 +78,6 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
                 error={instructorFormik.touched.imageUrl && Boolean(instructorFormik.errors.imageUrl)}
                 onChange={instructorFormik.handleChange}
             />
-            {/*<TextField*/}
-            {/*    select*/}
-            {/*    name="imageUrl"*/}
-            {/*    label="Instructor"*/}
-            {/*    value={courseFormik.values.instructorId}*/}
-            {/*    helperText={courseFormik.touched.instructorId && courseFormik.errors.instructorId}*/}
-            {/*    error={courseFormik.touched.instructorId && Boolean(courseFormik.errors.instructorId)}*/}
-            {/*    onChange={courseFormik.handleChange}*/}
-            {/*>*/}
-            {/*    {courseSelect}*/}
-            {/*</TextField>*/}
-            {/*<Button onClick={handleClose}>Cancel</Button>*/}
             <Button type="submit">
                 submit
             </Button>
@@ -125,8 +87,12 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
 
 
 export const UpdateInstructor = ({id, handleClose, refetchInstructors}) => {
-    // const {isLoading: loadingInstructor} = useGetInstructorByIDQuery(id);
-    const {data: instructorByID, isFetching, refetch: refetchByID, isLoading: loadingInstructor} = useGetInstructorByIDQuery(id);
+    const {
+        data: instructorByID,
+        isFetching,
+        refetch: refetchByID,
+        isLoading: loadingInstructor
+    } = useGetInstructorByIDQuery(id);
 
     if (loadingInstructor) return (<CircularProgress size={150}/>)
 
@@ -137,7 +103,7 @@ export const UpdateInstructor = ({id, handleClose, refetchInstructors}) => {
                 <DialogContentText>
                     Change the information of this instructor.
                 </DialogContentText>
-                <UpdateInstructorForm handleClose={handleClose} id={id} instructorByID={instructorByID} />
+                <UpdateInstructorForm handleClose={handleClose} id={id} instructorByID={instructorByID}/>
             </DialogContent>
         </>
     )

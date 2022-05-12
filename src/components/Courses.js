@@ -1,17 +1,16 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {
     Box,
-    Container,
-    Typography,
     Card,
     CardActions,
     CardContent,
-    IconButton, Dialog, CircularProgress
+    CircularProgress,
+    Container,
+    Dialog,
+    IconButton,
+    Typography
 } from "@mui/material";
-import {
-    useDeleteCourseMutation,
-    useGetCoursesQuery, useGetInstructorsQuery
-} from "../redux/services/apiSlice";
+import {useDeleteCourseMutation, useGetCoursesQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
@@ -115,18 +114,20 @@ export const Courses = () => {
                             key={course.id}
                         >
                             <CardContent>
-                                <Typography  sx={{textDecoration:'underline'}} variant="h5" gutterBottom fontFamily={"Oxygen"}>
+                                <Typography sx={{textDecoration: 'underline'}} variant="h5" gutterBottom
+                                            fontFamily={"Oxygen"}>
                                     {course.title}
                                 </Typography>
 
                                 <Typography variant="body1" fontFamily={"Oxygen"}>
-                                    Location: {course.location}
-                                    <br/>
                                     Time: {course.timeslot}
                                     <br/>
-                                    {course.instructor ? `with ${course.instructor.firstname} ${course.instructor.lastname}` :
-                                    <>No instructor assigned to this course. <br/>
-                                    Edit this course to assign one.</>}
+                                    {course.location ? `Location: ${course.location}` :
+                                        <>Update this course to chose a location.</>}
+                                    <br/>
+                                    {course.instructor ? `Instructor: ${course.instructor.firstname} ${course.instructor.lastname}` :
+                                        <>No instructor assigned to this course. <br/>
+                                            Edit this course to assign one.</>}
                                 </Typography>
                             </CardContent>
                             <CardActions>
@@ -143,8 +144,8 @@ export const Courses = () => {
                         </Card>
                     ))
                 ) : (<Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div" variant="h4">
-                        No courses available. Add one now with the button on the bottom right.
-                    </Typography>)
+                    No courses available. Add one now with the button on the bottom right.
+                </Typography>)
                 }
             </Box>
             <AddCourse refetchInstructors={refetchInstructors}/>
