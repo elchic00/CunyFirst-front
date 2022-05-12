@@ -37,9 +37,6 @@ export const HomePage = () => {
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                flexWrap: 'wrap',
-                alignText: 'center',
-                alignItems: 'center'
             }}>
                 <Card sx={{maxWidth: 315}}>
                     <CardContent>
