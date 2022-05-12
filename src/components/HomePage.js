@@ -73,6 +73,5 @@ export const HomePage = () => {
                 </Card>
             </Box>
         </>
-        // { items }
     );
 }

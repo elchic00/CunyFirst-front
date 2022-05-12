@@ -114,7 +114,6 @@ const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => 
 
 
 export const UpdateCourse = ({id, handleClose, refetchInstructors}) => {
-    // const {isLoading: loadingCourse} = useGetCourseByIDQuery(id);
     const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
 
     if (loadingCourse) return (<CircularProgress size={150}/>)

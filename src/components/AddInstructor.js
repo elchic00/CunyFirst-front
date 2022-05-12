@@ -15,7 +15,6 @@ export const AddInstructor = ({onAddCourse}) => {
     }
 
     const [addInstructor, {isLoading: loadingAddPost}] = useAddNewInstructorMutation();
-    // const { data: courses,  isFetching, isLoading, refetch } = useGetCoursesQuery();
 
     const instructorFormik = useFormik({
         initialValues: initialFormData,
@@ -47,13 +46,6 @@ export const AddInstructor = ({onAddCourse}) => {
         setOpen(false);
     };
 
-
-    // const instructorSelect = courses !== undefined && courses.map((instructor)=>(
-    //     <MenuItem key={instructor.id} value={instructor.id}>
-    //         {instructor.firstname} {instructor.lastname}
-    //     </MenuItem>
-    // ))
-
     return (
         <>
             <Fab onClick={handleClickOpenAddCourse} sx={{position: "fixed", bottom: 20, right: 30}} color="primary"
@@ -78,8 +70,8 @@ export const AddInstructor = ({onAddCourse}) => {
                             name="firstname"
                             label="First Name"
                             value={instructorFormik.values.firstname}
-                            // helperText={instructorFormik.touched.firstname && instructorFormik.errors.firstname}
-                            // error={instructorFormik.touched.firstname && Boolean(instructorFormik.errors.firstname)}
+                            helperText={instructorFormik.touched.firstname && instructorFormik.errors.firstname}
+                            error={instructorFormik.touched.firstname && Boolean(instructorFormik.errors.firstname)}
                             onChange={instructorFormik.handleChange}
                         />
                         <TextField
