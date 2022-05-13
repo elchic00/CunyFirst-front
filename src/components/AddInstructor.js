@@ -22,11 +22,21 @@ export const AddInstructor = ({onAddCourse}) => {
         onSubmit: (values, {resetForm}) => {
             try {
                 addInstructor(values).then(
-                    Swal.fire(
-                        'Great!',
-                        'You added the course!',
-                        'success'
-                    )).then(resetForm());
+                    (res) => {
+                        if (res.error)
+                            Swal.fire(
+                                'Nope!',
+                                "You did not add the instructor!",
+                                'error'
+                            )
+                        else {
+                            Swal.fire(
+                                'Great!',
+                                'You added the instructor!',
+                                'success'
+                            ).then(resetForm())
+                        }
+                    })
                 handleCloseAddCourse()
             } catch (e) {
                 console.log(e)
