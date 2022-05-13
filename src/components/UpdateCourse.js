@@ -63,7 +63,7 @@ const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => 
         <form onSubmit={courseFormik.handleSubmit}
               style={{
                   padding: 10,
-                  width: {xs: "auto", sm: "300px"},
+                  width:"300px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 15,

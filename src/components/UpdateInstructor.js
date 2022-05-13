@@ -41,7 +41,7 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
         <form onSubmit={instructorFormik.handleSubmit}
               style={{
                   padding: 10,
-                  width: {xs: "auto", sm: "300px"},
+                  width: "300px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 15,
@@ -86,7 +86,7 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
 }
 
 
-export const UpdateInstructor = ({id, handleClose, refetchInstructors}) => {
+export const UpdateInstructor = ({id, handleClose}) => {
     const {
         data: instructorByID,
         isFetching,
