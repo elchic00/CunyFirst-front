@@ -21,7 +21,7 @@ export const AddCourse = ({refetchInstructors}) => {
         title: "",
         timeslot: "",
         location: "",
-        instructorId: 0
+        instructorId: undefined
     }
 
 
