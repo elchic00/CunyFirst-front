@@ -19,7 +19,7 @@ import {AddInstructor} from './AddInstructor'
 import {UpdateInstructor} from "./UpdateInstructor";
 
 export const Instructors = () => {
-    const {data: instructors, isFetching, isLoading, error, refetch} = useGetInstructorsQuery();
+    const {data: instructors, isFetching, isLoading, error, refetch: refetchInstructors} = useGetInstructorsQuery();
     const [deleteInstructor, {isLoading: loadingDeleteInstructor}] = useDeleteInstructorMutation();
     const {refetch: refetchCourses} = useGetCoursesQuery();
 
@@ -62,7 +62,7 @@ export const Instructors = () => {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteInstructor(id).then(refetch()).then(refetchCourses())
+                deleteInstructor(id).then(refetchInstructors()).then(refetchCourses())
                     .then(
                         Swal.fire(
                             'Deleted!',
@@ -158,7 +158,7 @@ export const Instructors = () => {
             </Box>
             <AddInstructor/>
             <Dialog open={open} onClose={handleCloseUpdate}>
-                <UpdateInstructor id={idToUpdate} refetchInstructors={refetch} handleClose={handleCloseUpdate}/>
+                <UpdateInstructor id={idToUpdate} refetchInstructors={refetchInstructors} handleClose={handleCloseUpdate}/>
             </Dialog>
 
         </>
