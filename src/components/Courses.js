@@ -105,7 +105,7 @@ export const Courses = () => {
                     courses.map((course, index) => (
                         <Card
                             sx={{
-                                width: {xs: "auto", sm: "300px"},
+                                width: "300px",
                                 borderRadius: 2,
                                 height: "100%",
                                 display: "flex",
