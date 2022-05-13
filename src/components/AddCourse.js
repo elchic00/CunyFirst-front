@@ -34,11 +34,22 @@ export const AddCourse = ({refetchInstructors}) => {
         onSubmit: (values, {resetForm}) => {
             try {
                 addCourse(values).then(
-                    Swal.fire(
-                        'Great!',
-                        'You added the course!',
-                        'success'
-                    )).then(resetForm()).then(refetchInstructors);
+                    (res) => {
+                        if (res.error){
+                            console.log(res)
+                            Swal.fire(
+                                'Nope!',
+                                "You did not add the course!",
+                                'error'
+                            )}
+                        else {
+                            Swal.fire(
+                                'Great!',
+                                'You added the course!',
+                                'success'
+                            ).then(resetForm()).then(refetchInstructors);
+                        }
+                    })
                 handleCloseAddCourse()
             } catch (e) {
                 console.log(e)
