@@ -6,7 +6,8 @@ import {
     DialogContentText,
     DialogTitle,
     MenuItem,
-    TextField
+    TextField,
+    Box
 } from "@mui/material";
 import {useFormik} from "formik";
 import Swal from "sweetalert2";
@@ -60,56 +61,62 @@ const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => 
     });
 
     return (
-        <form onSubmit={courseFormik.handleSubmit}
-              style={{
-                  padding: 10,
-                  width:"300px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 15,
-              }}>
-            <TextField
-                name="title"
-                label="Name"
-                value={courseFormik.values.title}
-                helperText={courseFormik.touched.title && courseFormik.errors.title}
-                error={courseFormik.touched.title && Boolean(courseFormik.errors.title)}
-                onChange={courseFormik.handleChange}
-            />
-            <TextField
-                name="timeslot"
-                label="Timeslot"
-                value={courseFormik.values.timeslot}
-                helperText={courseFormik.touched.timeslot && courseFormik.errors.timeslot}
-                error={courseFormik.touched.timeslot && Boolean(courseFormik.errors.timeslot)}
-                onChange={courseFormik.handleChange}
-            />
+      <form
+        onSubmit={courseFormik.handleSubmit}
+        style={{
+          padding: 10,
+          width: { xs: "auto", sm: "300px" },
+          display: "flex",
+          flexDirection: "column",
+          gap: 15,
+        }}
+      >
+        <TextField
+          name="title"
+          label="Name"
+          value={courseFormik.values.title}
+          helperText={courseFormik.touched.title && courseFormik.errors.title}
+          error={courseFormik.touched.title && Boolean(courseFormik.errors.title)}
+          onChange={courseFormik.handleChange}
+        />
+        <TextField
+          name="timeslot"
+          label="Timeslot"
+          value={courseFormik.values.timeslot}
+          helperText={courseFormik.touched.timeslot && courseFormik.errors.timeslot}
+          error={courseFormik.touched.timeslot && Boolean(courseFormik.errors.timeslot)}
+          onChange={courseFormik.handleChange}
+        />
 
-            <TextField
-                name="location"
-                label="Location"
-                value={courseFormik.values.location}
-                helperText={courseFormik.touched.location && courseFormik.errors.location}
-                error={courseFormik.touched.location && Boolean(courseFormik.errors.location)}
-                onChange={courseFormik.handleChange}
-            />
-            <TextField
-                select
-                name="instructorId"
-                label="Instructor"
-                value={courseFormik.values.instructorId}
-                helperText={courseFormik.touched.instructorId && courseFormik.errors.instructorId}
-                error={courseFormik.touched.instructorId && Boolean(courseFormik.errors.instructorId)}
-                onChange={courseFormik.handleChange}
-            >
-                {instructorSelect}
-            </TextField>
-            {/*<Button onClick={handleClose}>Cancel</Button>*/}
-            <Button type="submit">
-                submit
-            </Button>
-        </form>
-    )
+        <TextField
+          name="location"
+          label="Location"
+          value={courseFormik.values.location}
+          helperText={courseFormik.touched.location && courseFormik.errors.location}
+          error={courseFormik.touched.location && Boolean(courseFormik.errors.location)}
+          onChange={courseFormik.handleChange}
+        />
+        <TextField
+          select
+          name="instructorId"
+          label="Instructor"
+          value={courseFormik.values.instructorId}
+          helperText={
+            courseFormik.touched.instructorId && courseFormik.errors.instructorId
+          }
+          error={
+            courseFormik.touched.instructorId && Boolean(courseFormik.errors.instructorId)
+          }
+          onChange={courseFormik.handleChange}
+        >
+          {instructorSelect}
+        </TextField>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button type="submit">submit</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </Box>
+      </form>
+    );
 }
 
 
