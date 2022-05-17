@@ -126,7 +126,7 @@ export const Courses = () => {
                                         <>Update this course to chose a location.</>}
                                     <br/>
                                     {course.instructor ? `Instructor: ${course.instructor.firstname} ${course.instructor.lastname}` :
-                                        <>No instructor assigned to this course. <br/>
+                                        <>No instructor chosen. <br/>
                                             Edit this course to assign one.</>}
                                 </Typography>
                             </CardContent>
