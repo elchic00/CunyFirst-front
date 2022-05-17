@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 // Define a service using a base URL and expected endpoints
 export const cunyFirstAPI = createApi({
     reducerPath: "cunyFirstAPI",
-    baseQuery: fetchBaseQuery({baseUrl: "https://peaceful-cove-55250.herokuapp.com/api"}),
+    baseQuery: fetchBaseQuery({baseUrl: "https://peaceful-cove-55250.herokuapp.com/api"}), //'http://localhost:5000/api/' }),
     tagTypes: ["Course", "Instructor"],
     endpoints: (builder) => ({
         getCourses: builder.query({
@@ -77,7 +77,7 @@ export const cunyFirstAPI = createApi({
             query: ({id, ...instructor}) => ({
                 url: `/instructors/${id}`,
                 method: "PUT",
-                body: instructor
+                body: instructor,
             }),
             invalidatesTags: (result, error, {id}) => [{type: "Instructor", id}],
         }),
@@ -89,7 +89,6 @@ export const cunyFirstAPI = createApi({
             }),
             invalidatesTags: (result, error, id) => [{type: "Instructor", id}],
         }),
-
     }),
 });
 
