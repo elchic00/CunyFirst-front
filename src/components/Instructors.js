@@ -1,15 +1,15 @@
 import {useState} from "react";
 import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Container,
-  Dialog,
-  IconButton,
-  Typography
+    Box,
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    CircularProgress,
+    Container,
+    Dialog,
+    IconButton,
+    Typography
 } from "@mui/material";
 import {useDeleteInstructorMutation, useGetCoursesQuery, useGetInstructorsQuery} from "../redux/services/apiSlice";
 import Swal from "sweetalert2";
@@ -24,7 +24,7 @@ export const Instructors = () => {
     const {refetch: refetchCourses} = useGetCoursesQuery();
 
     const [open, setOpen] = useState(false);
-    const [idToUpdate, setIDToUpdate] = useState(0);
+    const [idToUpdate, setIDToUpdate] = useState(undefined);
 
     if (isLoading) return (<>
         <Typography sx={{mb: 5}} fontFamily={"Oxygen"} gutterBottom component="div" variant="h2">
@@ -101,7 +101,7 @@ export const Instructors = () => {
                 </Typography>
             </Container>
             <Box sx={{display: "flex", flexWrap: "wrap", gap: 2, ml: 1}}>
-                {(instructors.length > 0 && isLoading === false) ? (
+                {instructors.length > 0 && isLoading === false ? (
                     instructors.map((instructor, index) => (
                         <Card
                             sx={{
@@ -120,8 +120,12 @@ export const Instructors = () => {
                                 alt="instructor-image"
                             />
                             <CardContent>
-                                <Typography sx={{textDecoration: 'underline'}} variant="h5" gutterBottom
-                                            fontFamily={"Oxygen"}>
+                                <Typography
+                                    sx={{textDecoration: "underline"}}
+                                    variant="h5"
+                                    gutterBottom
+                                    fontFamily={"Oxygen"}
+                                >
                                     {instructor.firstname} {instructor.lastname}
                                 </Typography>
 
@@ -129,38 +133,50 @@ export const Instructors = () => {
                                     {/*{instructor.location}, {instructor.timeslot}*/}
                                     {instructor.department && `${instructor.department} Department`}
                                     <br/>
-                                    {instructor.courses.length > 0 ?
+                                    {instructor.courses.length > 0 ? (
                                         `Courses: ${instructor.courses.map((course) => {
-                                            return (
-                                                ` ${course.title}`
-                                            )
-                                        })} ` : <>No courses available. <br/> Register a course with this instructor on
-                                            the courses page.</>}
+                                            return ` ${course.title}`;
+                                        })} `
+                                    ) : (
+                                        <>
+                                            No courses available. <br/> Register a course with this
+                                            instructor on the courses page.
+                                        </>
+                                    )}
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions sx={{mt: "auto"}}>
                                 <IconButton onClick={() => openUpdateInstructorForm(instructor.id)}>
                                     <EditIcon/>
                                 </IconButton>
-                                <IconButton
-                                    disabled={loadingDeleteInstructor}
-                                    onClick={() => handleDeleteConfirmation(instructor.id)}
+                                <IconButton disabled={loadingDeleteInstructor}
+                                            onClick={() => handleDeleteConfirmation(instructor.id)}
                                 >
                                     <DeleteIcon/>
                                 </IconButton>
                             </CardActions>
                         </Card>
                     ))
-                ) : (<Typography sx={{ml: '2%'}} fontFamily={"Inconsolata"} gutterBottom component="div" variant="h4">
-                    No instructors available. Add one now with the button on the bottom right.
-                </Typography>)
-                }
+                ) : (
+                    <Typography
+                        sx={{ml: "2%"}}
+                        fontFamily={"Inconsolata"}
+                        gutterBottom
+                        component="div"
+                        variant="h4"
+                    >
+                        No instructors available. Add one now with the button on the bottom right.
+                    </Typography>
+                )}
             </Box>
             <AddInstructor/>
             <Dialog open={open} onClose={handleCloseUpdate}>
-                <UpdateInstructor id={idToUpdate} refetchInstructors={refetchInstructors} handleClose={handleCloseUpdate}/>
+                <UpdateInstructor
+                    id={idToUpdate}
+                    refetchInstructors={refetchInstructors}
+                    handleClose={handleCloseUpdate}
+                />
             </Dialog>
-
         </>
     );
 };

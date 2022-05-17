@@ -21,7 +21,7 @@ import {UpdateCourse} from "./UpdateCourse";
 export const Courses = () => {
     const {data: courses, isFetching, isLoading, error, refetch: refetchCourses} = useGetCoursesQuery();
     const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
-    const {refetch: refetchInstructors} = useGetInstructorsQuery();
+    const {data: instructors, refetch: refetchInstructors} = useGetInstructorsQuery();
     const [open, setOpen] = useState(false);
     const [idToUpdate, setIDToUpdate] = useState(0);
 
@@ -148,7 +148,7 @@ export const Courses = () => {
                 </Typography>)
                 }
             </Box>
-            <AddCourse refetchInstructors={refetchInstructors}/>
+            <AddCourse instructors={instructors} refetchInstructors={refetchInstructors}/>
             <Dialog open={open} onClose={handleCloseUpdate}>
                 <UpdateCourse id={idToUpdate} refetchInstructors={refetchInstructors} handleClose={handleCloseUpdate}/>
             </Dialog>
