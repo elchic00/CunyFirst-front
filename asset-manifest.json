@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CunyFirst-front/static/css/main.9071bff3.css",
-    "main.js": "/CunyFirst-front/static/js/main.589809c4.js",
+    "main.js": "/CunyFirst-front/static/js/main.c07d0492.js",
     "static/js/787.30faaf1a.chunk.js": "/CunyFirst-front/static/js/787.30faaf1a.chunk.js",
     "index.html": "/CunyFirst-front/index.html",
     "main.9071bff3.css.map": "/CunyFirst-front/static/css/main.9071bff3.css.map",
-    "main.589809c4.js.map": "/CunyFirst-front/static/js/main.589809c4.js.map",
+    "main.c07d0492.js.map": "/CunyFirst-front/static/js/main.c07d0492.js.map",
     "787.30faaf1a.chunk.js.map": "/CunyFirst-front/static/js/787.30faaf1a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9071bff3.css",
-    "static/js/main.589809c4.js"
+    "static/js/main.c07d0492.js"
   ]
 }
