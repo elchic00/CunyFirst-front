@@ -2,8 +2,8 @@
 
 ### A react remake of the cunyfirst website.
 
-* Using an Express backend to handle the data.
-* MaterialUI for styling.
+* Using an Express + PostgreSQL backend to handle the data.
+* MaterialUI for styling components.
 
 Hosted here: https://elchic00.github.io/CunyFirst-front/
 
