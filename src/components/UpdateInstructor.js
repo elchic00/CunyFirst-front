@@ -6,7 +6,7 @@ import {instructorSchema} from "../utils/InstructorSchema.js"
 
 
 const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
-    const [updateInstructor, {isLoading}] = useUpdateInstructorMutation();
+    const [updateInstructor] = useUpdateInstructorMutation();
 
     const instructorFormik = useFormik({
         initialValues: instructorByID,
@@ -52,8 +52,8 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
                 name="firstname"
                 label="First Name"
                 value={instructorFormik.values.firstname}
-                // helperText={instructorFormik.touched.firstname && instructorFormik.errors.firstname}
-                // error={instructorFormik.touched.firstname && Boolean(instructorFormik.errors.firstname)}
+                helperText={instructorFormik.touched.firstname && instructorFormik.errors.firstname}
+                error={instructorFormik.touched.firstname && Boolean(instructorFormik.errors.firstname)}
                 onChange={instructorFormik.handleChange}
             />
             <TextField
@@ -105,8 +105,6 @@ const UpdateInstructorForm = ({handleClose, instructorByID, id}) => {
 export const UpdateInstructor = ({id, handleClose}) => {
     const {
         data: instructorByID,
-        isFetching,
-        refetch: refetchByID,
         isLoading: loadingInstructor
     } = useGetInstructorByIDQuery(id);
 

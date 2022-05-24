@@ -19,7 +19,7 @@ import {AddInstructor} from './AddInstructor'
 import {UpdateInstructor} from "./UpdateInstructor";
 
 export const Instructors = () => {
-    const {data: instructors, isFetching, isLoading, error, refetch: refetchInstructors} = useGetInstructorsQuery();
+    const {data: instructors, isLoading, refetch: refetchInstructors} = useGetInstructorsQuery();
     const [deleteInstructor, {isLoading: loadingDeleteInstructor}] = useDeleteInstructorMutation();
     const {refetch: refetchCourses} = useGetCoursesQuery();
 
@@ -76,7 +76,7 @@ export const Instructors = () => {
                 Swal.fire(
                     'Cancelled',
                     'Your instructor is safe.',
-                    'error'
+                    'info'
                 )
             }
         })

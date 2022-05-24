@@ -19,7 +19,7 @@ import {UpdateCourse} from "./UpdateCourse";
 
 
 export const Courses = () => {
-    const {data: courses, isFetching, isLoading, error, refetch: refetchCourses} = useGetCoursesQuery();
+    const {data: courses, isLoading, refetch: refetchCourses} = useGetCoursesQuery();
     const [deleteCourse, {isLoading: loadingDeleteCourse}] = useDeleteCourseMutation();
     const {data: instructors, refetch: refetchInstructors} = useGetInstructorsQuery();
     const [open, setOpen] = useState(false);
@@ -76,7 +76,7 @@ export const Courses = () => {
                 Swal.fire(
                     'Cancelled',
                     'Your course is safe.',
-                    'error'
+                    'info'
                 )
             }
         })

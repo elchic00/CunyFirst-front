@@ -17,12 +17,9 @@ import {courseSchema} from "../utils/CourseSchema.js"
 const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => {
     const {
         data: instructors,
-        isFetching: isFetchingInstructor,
-        isLoading: loadingInstructors,
-        refetch
     } = useGetInstructorsQuery();
 
-    const [updateCourse, {isLoading}] = useUpdateCourseMutation();
+    const [updateCourse] = useUpdateCourseMutation();
 
     const instructorSelect = instructors.map((instructor) => (
         <MenuItem key={instructor.id} value={instructor.id}>
@@ -121,7 +118,7 @@ const UpdateCourseForm = ({handleClose, id, refetchInstructors, courseByID}) => 
 
 
 export const UpdateCourse = ({id, handleClose, refetchInstructors}) => {
-    const {data: courseByID, isFetching, refetch: refetchByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
+    const {data: courseByID, isLoading: loadingCourse} = useGetCourseByIDQuery(id);
 
     if (loadingCourse) return (<CircularProgress size={150}/>)
     return (
