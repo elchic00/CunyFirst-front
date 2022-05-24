@@ -131,18 +131,14 @@ export const Instructors = () => {
 
                                 <Typography variant="body1" fontFamily={"Oxygen"}>
                                     {/*{instructor.location}, {instructor.timeslot}*/}
-                                    {instructor.department && `${instructor.department} Department`}
+                                    {instructor.department ? `${instructor.department} Department`:
+                                        <>Edit instructor to assign a department.</>}
                                     <br/>
                                     {instructor.courses.length > 0 ? (
                                         `Courses: ${instructor.courses.map((course) => {
-                                            return ` ${course.title}`;
-                                        })} `
-                                    ) : (
-                                        <>
-                                            No courses available. <br/> Register a course with this
-                                            instructor on the courses page.
-                                        </>
-                                    )}
+                                            return ` ${course.title}`;})} `) :
+                                        (<>No courses available. <br/>
+                                            Register a course with this instructor on the courses page.</>)}
                                 </Typography>
                             </CardContent>
                             <CardActions sx={{mt: "auto"}}>
