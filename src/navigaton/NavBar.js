@@ -3,7 +3,7 @@ import {useNavigate} from "react-router";
 import SchoolIcon from '@mui/icons-material/School';
 
 export const Navbar = () => {
-    const pages = ["Courses", "Instructors"];
+    const pages = ["Courses", "Instructors", "Login"];
     let navigate = useNavigate();
 
     return (
