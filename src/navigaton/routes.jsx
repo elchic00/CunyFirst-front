@@ -3,7 +3,7 @@ import {HomePage} from "../components/HomePage"
 import {Courses} from "../components/Courses";
 import {Instructors} from "../components/Instructors";
 import {Navbar} from "./NavBar";
-import {SignInScreen} from "../components/SignUp"
+import {SignInScreen} from "../components/LoginFB"
 
 export const AppRoutes = () => {
     return (
