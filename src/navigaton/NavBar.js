@@ -71,7 +71,7 @@ export const Navbar = () => {
                             onClick={() => navigate("/CunyFirstRemade")}
                             sx={{
                                 textAlign: "center",
-                                mr: {xs:"40%", md:"3%"},
+                                mr:{xs:"38%", md:"3%"},
                                 fontFamily: "Oxygen",
                                 fontWeight: {md:600, sm:500},
                                 letterSpacing: ".2rem",
