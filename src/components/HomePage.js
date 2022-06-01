@@ -34,11 +34,14 @@ export const HomePage = () => {
                 Home Page
             </Typography>
         </Container>
-            <Box sx={{
-                display: 'flex',
+            <Box
+                sx={{
+                display:'flex',
                 justifyContent: 'center',
+                    alignItems:'center',
+                    flexDirection: {xs: 'column',md:'row'},
             }}>
-                <Card sx={{maxWidth: 315}}>
+                <Card sx={{width: 340}}>
                     <CardContent>
                         <Typography variant="h5" gutterBottom>
                             You have {courses.length} courses saved
@@ -55,7 +58,7 @@ export const HomePage = () => {
                     </CardActions>
                 </Card>
 
-                <Card sx={{maxWidth: 340, ml: '15%'}}>
+                <Card sx={{width: 340, ml: {md:'15%', sm:0},  mt:{xs:5, md:0}}}>
                     <CardContent>
                         <Typography variant="h5" gutterBottom>
                             You have {instructors.length} instructors saved
