@@ -10,7 +10,6 @@ export const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     function handleOpenNavMenu(event){
-        // console.log(page)
         // navigate(`/${page.charAt(0).toLowerCase() + page.substring(1)}`)
         setAnchorElNav(event.currentTarget);
     };
@@ -26,7 +25,28 @@ export const Navbar = () => {
             <AppBar position="static">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <SchoolIcon onClick={() => navigate('/CunyFirstRemade')}
+                                    sx={{cursor: "pointer", color: 'black', fontSize: "400%", mr: 1}}/>
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            onClick={() => navigate("/CunyFirstRemade")}
+                            sx={{
+                                textAlign: "center",
+                                fontFamily: "Oxygen",
+                                fontWeight: {md:600, sm:500},
+                                letterSpacing: ".2rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                mr:3
+                            }}
+                        >
+                            HOME
+                        </Typography>
+                        {/*  MOBILE NAVIGATION MENU  */}
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end'}}>
                             <IconButton
                                 size="large"
                                 aria-label="account of current user"
@@ -35,7 +55,7 @@ export const Navbar = () => {
                                 onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <MenuIcon />
+                                <MenuIcon   />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -57,31 +77,14 @@ export const Navbar = () => {
                             >
                                 {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography onClick={() => navigate(`/${page.charAt(0).toLowerCase() + page.substring(1)}`)} textAlign="center">{page}</Typography>
+                                        <Typography onClick={() => navigate(`/${page.charAt(0).toLowerCase() + page.substring(1)}`)} textAlign="center">
+                                            {page}
+                                        </Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
                         </Box>
-                        <SchoolIcon onClick={() => navigate('/CunyFirstRemade')}
-                                    sx={{cursor: "pointer", color: 'black', fontSize: "400%", mr: 1}}/>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            onClick={() => navigate("/CunyFirstRemade")}
-                            sx={{
-                                textAlign: "center",
-                                mr:{xs:"38%", md:"3%"},
-                                fontFamily: "Oxygen",
-                                fontWeight: {md:600, sm:500},
-                                letterSpacing: ".2rem",
-                                color: "inherit",
-                                textDecoration: "none",
-                                cursor: "pointer",
-                            }}
-                        >
-                            HOME
-                        </Typography>
+                        {/*  DESKTOP NAVIGATION BAR  */}
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <MenuItem
