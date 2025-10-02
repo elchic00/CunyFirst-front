@@ -2,6 +2,8 @@
 
 ### A react remake of the cunyfirst website.
 
+See the backend code here: https://github.com/elchic00/cunyFirst-backend 
+
 * Using an Express + PostgreSQL backend to handle the data.
 * MaterialUI for styling components, Swal alert for pop-ups, and RTK Query from the Redux Toolkit to handle API request.
 
